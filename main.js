@@ -1,5 +1,5 @@
-var net  = require("net");
 var http = require("http");
+var net  = require("net");
 var url  = require("url");
 var util = require("util");
 
@@ -115,7 +115,6 @@ function start (host, port, path, req, res, handler) {
 }
 
 function proxy (host, port, path, req, res, callback) {
-    var options;
 
     for (var k in req.headers) {
         if (k.match(/^proxy-/)) {
@@ -123,11 +122,19 @@ function proxy (host, port, path, req, res, callback) {
         }
     }
 
-    if (!host) {
-        options = {socketPath: port, path: path, method: req.method, headers: req.headers};
-    } else {
-        options = {host: host, port: port, path: path, method: req.method, headers: req.headers};
-    }
+    // var options;
+    // if (!host) {
+    //     options = {socketPath: port, path: path, method: req.method, headers: req.headers};
+    // } else {
+    //     options = {host: host, port: port, path: path, method: req.method, headers: req.headers};
+    // }
+
+    var options = host ? {host: host, port: port} : {socketPath: port};
+
+    options.agent = false;
+    options.path = path;
+    options.method = req.method;
+    options.headers = req.headers;
 
     return http.request(options, function (res2) {
         res.writeHead(res2.statusCode, res2.headers);

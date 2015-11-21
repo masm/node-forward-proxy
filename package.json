@@ -1,7 +1,7 @@
 {
   "name": "http-forward-proxy",
-  "version": "1.0.0",
-  "description": "A forward proxy library",
+  "version": "0.0.1",
+  "description": "An HTTP forward proxy library",
   "main": "main.js",
   "dependencies": {},
   "devDependencies": {},
